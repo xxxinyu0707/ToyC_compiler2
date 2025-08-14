@@ -1,0 +1,78 @@
+(lang dune 3.19)
+(name ToyC_compiler)
+(sections (lib .) (libexec .) (bin ../../bin))
+(files
+ (lib
+  (META
+   ast.ml
+   codegen.ml
+   dune-package
+   lexer.ml
+   opam
+   parser.ml
+   parser.mli
+   semantic.ml
+   toyc_lib.a
+   toyc_lib.cma
+   toyc_lib.cmi
+   toyc_lib.cmt
+   toyc_lib.cmx
+   toyc_lib.cmxa
+   toyc_lib.ml
+   toyc_lib__Ast.cmi
+   toyc_lib__Ast.cmt
+   toyc_lib__Ast.cmx
+   toyc_lib__Codegen.cmi
+   toyc_lib__Codegen.cmt
+   toyc_lib__Codegen.cmx
+   toyc_lib__Lexer.cmi
+   toyc_lib__Lexer.cmt
+   toyc_lib__Lexer.cmx
+   toyc_lib__Parser.cmi
+   toyc_lib__Parser.cmt
+   toyc_lib__Parser.cmti
+   toyc_lib__Parser.cmx
+   toyc_lib__Semantic.cmi
+   toyc_lib__Semantic.cmt
+   toyc_lib__Semantic.cmx))
+ (libexec (toyc_lib.cmxs))
+ (bin (ToyC_compiler)))
+(library
+ (name ToyC_compiler)
+ (kind normal)
+ (archives (byte toyc_lib.cma) (native toyc_lib.cmxa))
+ (plugins (byte toyc_lib.cma) (native toyc_lib.cmxs))
+ (native_archives toyc_lib.a)
+ (main_module_name Toyc_lib)
+ (modes byte native)
+ (modules
+  (wrapped
+   (group
+    (alias
+     (obj_name toyc_lib)
+     (visibility public)
+     (kind alias)
+     (source (path Toyc_lib) (impl (path toyc_lib.ml-gen))))
+    (name Toyc_lib)
+    (modules
+     (module
+      (obj_name toyc_lib__Ast)
+      (visibility public)
+      (source (path Ast) (impl (path ast.ml))))
+     (module
+      (obj_name toyc_lib__Codegen)
+      (visibility public)
+      (source (path Codegen) (impl (path codegen.ml))))
+     (module
+      (obj_name toyc_lib__Lexer)
+      (visibility public)
+      (source (path Lexer) (impl (path lexer.ml))))
+     (module
+      (obj_name toyc_lib__Parser)
+      (visibility public)
+      (source (path Parser) (intf (path parser.mli)) (impl (path parser.ml))))
+     (module
+      (obj_name toyc_lib__Semantic)
+      (visibility public)
+      (source (path Semantic) (impl (path semantic.ml))))))
+   (wrapped true))))

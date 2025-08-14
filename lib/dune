@@ -1,0 +1,9 @@
+(ocamllex lexer)
+
+(menhir
+ (modules parser))
+
+(library
+ (name toyc_lib)
+ (public_name ToyC_compiler)
+ (modules ast lexer parser semantic codegen))
